@@ -1,3 +1,5 @@
+import { join } from "node:path";
+
 // Project structure
 export const PROJECT_SUBDIR = "base44";
 export const CONFIG_FILE_EXTENSION = "jsonc";
@@ -27,3 +29,5 @@ export const TYPES_FILENAME = "types.d.ts";
 
 // Auth
 export const AUTH_CLIENT_ID = "base44_cli";
+
+export const TMP_DIR = join(PROJECT_SUBDIR, "tmp");
