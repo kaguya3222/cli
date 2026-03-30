@@ -28,14 +28,15 @@ const createJwtToken = (email: string) => {
   });
 };
 
-const OtpRegiterSchema = z.object({
+const UserRegiterSchema = z.object({
   id: z.string(),
   email: z.email(),
   otpCode: z.string().length(6),
+  password: z.string().min(8),
   createdAt: z.number().min(1),
 });
 
-type OtpRegiter = z.infer<typeof OtpRegiterSchema>;
+type UserRegiter = z.infer<typeof UserRegiterSchema>;
 
 export function createAuthRouter(
   cwd: string,
@@ -100,10 +101,11 @@ export function createAuthRouter(
 
     const otpCode = generateCode();
     const id = nanoid();
-    const data: OtpRegiter = {
+    const data: UserRegiter = {
       id,
       email,
       otpCode,
+      password,
       createdAt: +Date.now(),
     };
 
@@ -140,7 +142,7 @@ export function createAuthRouter(
           encoding: "utf8",
         });
 
-        const data = OtpRegiterSchema.parse(JSON.parse(dataStr));
+        const data = UserRegiterSchema.parse(JSON.parse(dataStr));
 
         if (
           data.otpCode === otp_code &&
